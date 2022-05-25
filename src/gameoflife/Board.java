@@ -127,6 +127,7 @@ public class Board {
 
       return totalNeighbors;
     }
+  }
 
   // TODO: JAVADOC
   public int checkTop(int rowIndex, int columnIndex) {
