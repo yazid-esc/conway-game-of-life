@@ -69,5 +69,21 @@ public class Board {
   // MUTATORS /////
   // no mutators - class user must create new board
 
-  
+  public void print() {
+    for(int rowIndex = 0; rowIndex < 140; ++rowIndex) {
+      // If we're printing the first column (a.k.a barely about to start printing the board)
+      if(rowIndex == 0)
+        System.out.printf("%10s", "Gen " + this.currentGeneration);
+      else
+        System.out.printf("%10s", "");
+
+      for(int columnIndex = 0; columnIndex < 140; ++columnIndex) {
+        System.out.print((this.board)[rowIndex][columnIndex] + " ");
+      }
+
+      System.out.println();
+    }
+
+    System.out.println();
+  }
 }
