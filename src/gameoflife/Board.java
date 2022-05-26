@@ -90,7 +90,45 @@ public class Board {
   public void evolveOneGeneration() {
     char[][] nextBoard = (char[][])((this.board).clone());
 
+    for(int rowIndex = 0; rowIndex < 140; ++rowIndex) {
+      for(int columnIndex = 0; columnIndex < 140; ++columnIndex) {
+        int totalNeighbors = countNeighbors(rowIndex, columnIndex);
 
+        switch(totalNeighbors) {
+          // Check for too few neighbors --> DIES
+          case 0:
+          case 1:
+            {
+              nextBoard[rowIndex][columnIndex] = EMPTY;
+              break;
+            }
+
+          // Check for a good amount of neighbors --> SURVIVE
+          case 2:
+          case 3:
+           {
+             nextBoard[rowIndex][columnIndex] = FULL;
+             break;
+           }
+
+          // If none from above then: too many neighbors --> DIES
+          default:
+            nextBoard[rowIndex][columnIndex] = EMPTY;
+        }
+      }
+    }
+
+    ++(this.currentGeneration);
+    this.board = nextBoard;
+  }
+
+  public void evolveMultipleGenerations(int numberOfGenerations) {
+    // Parameter checking
+    if(x < 0)
+      throw new Exception("Parameter x cannot be a negative number");
+
+    for(int i = 0; i < numberOfGenerations; ++i)
+      this.evolveOneGeneration();
   }
 
   // TODO: JAVADOC
@@ -115,9 +153,9 @@ public class Board {
     } else if(r == 139) {                             // cell along bottom of board
       totalNeighbors += checkLeft(r, c) + checkTopLeft(r, c) + checkTop(r, c) + checkTopRight(r, c) + checkRight(r, c); // NOTE: CORRECT ORDER OF CHECKS TO CLOCKWISE
     } else if(c == 0) {                               // cell along left side of board
-      totalNeighors += checkTop(r, c) + checkTopRight(r, c) + checkRight(r, c) + checkBottomRight(r, c) + checkBottom(r, c);
+      totalNeighbors += checkTop(r, c) + checkTopRight(r, c) + checkRight(r, c) + checkBottomRight(r, c) + checkBottom(r, c);
     } else if(c == 139) {                             // cell along right side of board
-      totalNeighors += checkBottom(r, c) + checkBottomLeft(r, c) + checkLeft(r, c) + checkTopLeft(r, c) + checkTop(r, c);
+      totalNeighbors += checkBottom(r, c) + checkBottomLeft(r, c) + checkLeft(r, c) + checkTopLeft(r, c) + checkTop(r, c);
     }
 
     // Check non-special case cells (cells that have neighbors all around them)
