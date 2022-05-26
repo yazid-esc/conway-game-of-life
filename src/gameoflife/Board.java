@@ -1,6 +1,8 @@
 
 package gameoflife;
 
+import java.util.Objects;
+
 /**
 TODO: JAVADOC
 */
@@ -18,11 +20,11 @@ public class Board {
   // CONSTRUCTORS /////
   // TODO: JAVADOC
   public Board() {
-    this.board = new char[SIZE][SIZE];
+    this.board = new char[SIDE][SIDE];
   }
 
   // TODO: JAVADOC
-  public Board(char[][] board) {
+  public Board(char[][] board) throws Exception{
     // Parameter checking
     {
       // Check for null value
@@ -47,7 +49,7 @@ public class Board {
           boolean validCharacter = (currentChar == EMPTY) || (currentChar == FULL);
 
           if(!validCharacter)
-            throw new Exception("Invalid character '" + currentChar + "' in row " (rowIndex + 1) + ", column " + (columnIndex + 1));
+            throw new Exception("Invalid character '" + currentChar + "' in row " + (rowIndex + 1) + ", column " + (columnIndex + 1));
         }
       }
 
@@ -122,9 +124,9 @@ public class Board {
     this.board = nextBoard;
   }
 
-  public void evolveMultipleGenerations(int numberOfGenerations) {
+  public void evolveMultipleGenerations(int numberOfGenerations) throws Exception{
     // Parameter checking
-    if(x < 0)
+    if(numberOfGenerations < 0)
       throw new Exception("Parameter x cannot be a negative number");
 
     for(int i = 0; i < numberOfGenerations; ++i)
@@ -139,17 +141,17 @@ public class Board {
     if((r == 0) && (c == 0)) {             // upper left corner cell
       totalNeighbors += checkRight(r, c) + checkBottomRight(r, c) + checkBottom(r, c);
     } else if((r == 0) && (c == 139)) {    // upper right corner cell
-      totalNeighbors += checkBottom(r, c) + checkBottomLeft(r, c), + checkLeft(r, c);
+      totalNeighbors += checkBottom(r, c) + checkBottomLeft(r, c) + checkLeft(r, c);
     } else if((r == 139) && (c == 0)) {    // lower left corner cell
-      totalNeighbors += checkTop(r, c) + checkTopRight(r, c), + checkRight(r, c);
+      totalNeighbors += checkTop(r, c) + checkTopRight(r, c) + checkRight(r, c);
     } else if((r == 139) && (c == 139)){   // lower right corner cell
-      totalNeighbors += checkLeft(r, c) + checkTopLeft(r, c), + checkTop(r, c);
+      totalNeighbors += checkLeft(r, c) + checkTopLeft(r, c) + checkTop(r, c);
 
     }
 
     // Check if cell is aligned to any board edge
     if(r == 0) {                                      // cell along top of board
-      totalNeighbors += checkRight(r, c) + checkBottomRight(r, c), + checkBottom(r, c) + checkBottomLeft(r, c) + checkLeft(r, c);
+      totalNeighbors += checkRight(r, c) + checkBottomRight(r, c) + checkBottom(r, c) + checkBottomLeft(r, c) + checkLeft(r, c);
     } else if(r == 139) {                             // cell along bottom of board
       totalNeighbors += checkLeft(r, c) + checkTopLeft(r, c) + checkTop(r, c) + checkTopRight(r, c) + checkRight(r, c); // NOTE: CORRECT ORDER OF CHECKS TO CLOCKWISE
     } else if(c == 0) {                               // cell along left side of board
@@ -161,7 +163,7 @@ public class Board {
     // Check non-special case cells (cells that have neighbors all around them)
     {
       totalNeighbors += checkTop(r, c) + checkTopRight(r, c) + checkRight(r, c) + checkBottomRight(r, c) +
-                        checkBottom(r, c), checkBottomLeft(r, c), checkLeft(r, c), + checkTopLeft(r, c);
+                        checkBottom(r, c) + checkBottomLeft(r, c) + checkLeft(r, c) + checkTopLeft(r, c);
 
       return totalNeighbors;
     }
