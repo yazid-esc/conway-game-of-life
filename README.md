@@ -15,5 +15,5 @@ Here are the basics of Conway's Game of Life:
 * If a cell has any less, then it dies, as if from loneliness
 * If a cell has any more, then it dies, as if from overpopulation
 
-####Using this code:
-[TODO: FINIS HERE]
+#### Using this code:
+[TODO: FINISH HERE]
