@@ -80,7 +80,7 @@ public class Board {
         System.out.printf("%10s", "");
 
       for(int columnIndex = 0; columnIndex < 140; ++columnIndex) {
-        System.out.print((this.board)[rowIndex][columnIndex] + " ");
+        System.out.print((this.board)[rowIndex][columnIndex] + "");
       }
 
       System.out.println();
@@ -140,24 +140,32 @@ public class Board {
     // Check if cell is corner cell
     if((r == 0) && (c == 0)) {             // upper left corner cell
       totalNeighbors += checkRight(r, c) + checkBottomRight(r, c) + checkBottom(r, c);
+      return totalNeighbors;
     } else if((r == 0) && (c == 139)) {    // upper right corner cell
       totalNeighbors += checkBottom(r, c) + checkBottomLeft(r, c) + checkLeft(r, c);
+      return totalNeighbors;
     } else if((r == 139) && (c == 0)) {    // lower left corner cell
       totalNeighbors += checkTop(r, c) + checkTopRight(r, c) + checkRight(r, c);
+      return totalNeighbors;
     } else if((r == 139) && (c == 139)){   // lower right corner cell
       totalNeighbors += checkLeft(r, c) + checkTopLeft(r, c) + checkTop(r, c);
+      return totalNeighbors;
 
     }
 
     // Check if cell is aligned to any board edge
     if(r == 0) {                                      // cell along top of board
       totalNeighbors += checkRight(r, c) + checkBottomRight(r, c) + checkBottom(r, c) + checkBottomLeft(r, c) + checkLeft(r, c);
+      return totalNeighbors;
     } else if(r == 139) {                             // cell along bottom of board
-      totalNeighbors += checkLeft(r, c) + checkTopLeft(r, c) + checkTop(r, c) + checkTopRight(r, c) + checkRight(r, c); // NOTE: CORRECT ORDER OF CHECKS TO CLOCKWISE
+      totalNeighbors += checkLeft(r, c) + checkTopLeft(r, c) + checkTop(r, c) + checkTopRight(r, c) + checkRight(r, c);
+      return totalNeighbors;
     } else if(c == 0) {                               // cell along left side of board
       totalNeighbors += checkTop(r, c) + checkTopRight(r, c) + checkRight(r, c) + checkBottomRight(r, c) + checkBottom(r, c);
+      return totalNeighbors;
     } else if(c == 139) {                             // cell along right side of board
       totalNeighbors += checkBottom(r, c) + checkBottomLeft(r, c) + checkLeft(r, c) + checkTopLeft(r, c) + checkTop(r, c);
+      return totalNeighbors;
     }
 
     // Check non-special case cells (cells that have neighbors all around them)
@@ -225,11 +233,17 @@ public class Board {
 
   // TODO: JAVADOC
   public int checkBottomLeft(int rowIndex, int columnIndex) {
+    try {
     // Check cell bottom left
     if((this.board)[rowIndex + 1][columnIndex - 1] == FULL)
       return 1;
 
     return 0;
+  } catch(ArrayIndexOutOfBoundsException aioobe) {
+    System.out.println(String.format("method checkBottomLeft(%d, %d)", rowIndex, columnIndex));
+  }
+
+  return -1;
   }
 
   // TODO: JAVADOC
